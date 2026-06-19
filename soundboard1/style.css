@@ -1,5 +1,16 @@
 
-  .sb-wrap { padding: 1rem 0; font-family: sans-serif; }
+ :root {
+  --color-text-primary: #0051ff;
+  --color-text-secondary: #6200ff;
+  --color-border-tertiary: #0066ff;
+  --color-background-primary: #edcdff;
+  --color-background-secondary: #eefcff;
+  --color-background-tertiary: #ff99eb;
+  --border-radius-md: 5px;
+
+}
+ 
+ .sb-wrap { padding: 1rem 0; font-family: sans-serif; }
   .sb-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
   .sb-header h2 { font-size: 18px; font-weight: 500; margin: 0; color: var(--color-text-primary); }
   .add-panel { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
@@ -8,6 +19,7 @@
   .add-panel input { width: 100%; box-sizing: border-box; }
   .add-btn { height: 36px; padding: 0 14px; white-space: nowrap; }
   .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .export { padding-top: 0.9rem}
   .clip-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 0.9rem; display: flex; flex-direction: column; gap: 8px; }
   .clip-card.playing { border-color: #5DCAA5; border-width: 1.5px; }
   .clip-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

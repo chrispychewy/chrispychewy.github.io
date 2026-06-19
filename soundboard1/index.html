@@ -51,6 +51,16 @@
       No clips yet — add one above
     </div>
   </div>
+
+  <div class="export" id="export">
+    <button onclick="exportSoundboard()">Export</button>
+
+      <input
+        type="file"
+        accept=".json"
+        onchange="importSoundboard(event)"
+>
+
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -286,12 +296,46 @@ renderBoard();
             <i class="ti ${currentClipId === c.id ? 'ti-player-stop' : 'ti-player-play'}"></i>
             ${currentClipId === c.id ? 'Stop' : 'Play'}
           </button>
-          <button class="del-btn" onclick="deleteClip(${c.id})"><i class="ti ti-trash"></i></button>
+          <button class="del-btn" onclick="deleteClip(${c.id})"><i class="ti ti-trash">delete</i></button>
         </div>
       </div>
     `).join('');
   }
 
   document.getElementById('yt-url').addEventListener('keydown', e => { if (e.key === 'Enter') addClip(); });
+
+function exportSoundboard() {
+  const blob = new Blob(
+    [JSON.stringify(clips, null, 2)],
+    { type: 'application/json' }
+  );
+
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'soundboard.json';
+  a.click();
+
+  URL.revokeObjectURL(a.href);
+}
+
+function importSoundboard(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = e => {
+    try {
+      clips = JSON.parse(e.target.result);
+      saveSoundboard();
+      renderBoard();
+    } catch {
+      alert('Invalid soundboard file.');
+    }
+  };
+
+  reader.readAsText(file);
+}
+
 </script>
 </html>
