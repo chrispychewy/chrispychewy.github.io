@@ -1,5 +1,5 @@
 
-  .sb-wrap { padding: 1rem 0; font-family: var(--font-sans); }
+  .sb-wrap { padding: 1rem 0; font-family: sans-serif; }
   .sb-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
   .sb-header h2 { font-size: 18px; font-weight: 500; margin: 0; color: var(--color-text-primary); }
   .add-panel { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); padding: 1rem 1.25rem; margin-bottom: 1.5rem; }

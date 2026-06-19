@@ -55,6 +55,33 @@
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
+
+const STORAGE_KEY = 'youtube_soundboard_clips';
+
+function saveSoundboard() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(clips));
+}
+
+function loadSoundboard() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+
+  if (!saved) return;
+
+  try {
+    clips = JSON.parse(saved);
+
+    // Ensure IDs exist if loading older data
+    clips = clips.map(c => ({
+      ...c,
+      id: c.id || Date.now() + Math.random()
+    }));
+
+    renderBoard();
+  } catch (err) {
+    console.error('Failed to load soundboard:', err);
+  }
+}
+
   const FADE_DURATION = 2000; // ms for fade in / fade out
   const FADE_STEP = 50;       // ms between volume ticks
 
@@ -217,7 +244,15 @@
     if (!vid) { err.textContent = 'Could not parse a video ID from that URL.'; return; }
     if (dur < 5) { err.textContent = 'Duration should be at least 5s to allow fades.'; return; }
 
-    clips.push({ id: Date.now(), vid, start, dur, label: label || `Clip ${clips.length + 1}` });
+clips.push({
+  id: Date.now(),
+  vid,
+  start,
+  dur,
+  label: label || `Clip ${clips.length + 1}`
+});
+
+saveSoundboard();
     document.getElementById('yt-url').value = '';
     document.getElementById('yt-start').value = '';
     document.getElementById('yt-dur').value = '15';
@@ -227,9 +262,14 @@
 
   function deleteClip(id) {
     if (currentClipId === id) stopPlayback(false);
-    clips = clips.filter(c => c.id !== id);
-    renderBoard();
+clips = clips.filter(c => c.id !== id);
+saveSoundboard();
+renderBoard();
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+  loadSoundboard();
+});
 
   function renderBoard() {
     const board = document.getElementById('board');
