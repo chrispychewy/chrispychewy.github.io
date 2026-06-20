@@ -270,6 +270,7 @@ saveSoundboard();
     renderBoard();
   }
 
+
   function deleteClip(id) {
     if (currentClipId === id) stopPlayback(false);
 clips = clips.filter(c => c.id !== id);
@@ -288,7 +289,7 @@ renderBoard();
       return;
     }
     board.innerHTML = clips.map(c => `
-      <div class="clip-card${currentClipId === c.id ? ' playing' : ''}">
+      <div class="clip-card${currentClipId === c.id ? ' playing' : ''}" draggable="true" data-id="${c.id}">
         <div class="clip-title" title="${c.label}">${c.label}</div>
         <div class="clip-meta"><i class="ti ti-clock" style="font-size:11px"></i> ${toHMS(c.start)} &middot; ${c.dur}s</div>
         <div class="clip-actions">
@@ -300,6 +301,69 @@ renderBoard();
         </div>
       </div>
     `).join('');
+    
+    attachDragListeners();
+  }
+
+  let draggedCard = null;
+
+  function attachDragListeners() {
+    const cards = document.querySelectorAll('.clip-card');
+    cards.forEach(card => {
+      card.addEventListener('dragstart', handleDragStart);
+      card.addEventListener('dragover', handleDragOver);
+      card.addEventListener('drop', handleDrop);
+      card.addEventListener('dragend', handleDragEnd);
+      card.addEventListener('dragenter', handleDragEnter);
+      card.addEventListener('dragleave', handleDragLeave);
+    });
+  }
+
+  function handleDragStart(e) {
+    draggedCard = this;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  }
+
+  function handleDragEnter(e) {
+    if (this !== draggedCard) {
+      this.classList.add('drag-over');
+    }
+  }
+
+  function handleDragLeave(e) {
+    this.classList.remove('drag-over');
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    if (this !== draggedCard) {
+      const draggedId = parseInt(draggedCard.dataset.id);
+      const targetId = parseInt(this.dataset.id);
+      
+      const draggedIndex = clips.findIndex(c => c.id === draggedId);
+      const targetIndex = clips.findIndex(c => c.id === targetId);
+      
+      if (draggedIndex !== -1 && targetIndex !== -1) {
+        const [movedClip] = clips.splice(draggedIndex, 1);
+        clips.splice(targetIndex, 0, movedClip);
+        saveSoundboard();
+        renderBoard();
+      }
+    }
+    this.classList.remove('drag-over');
+  }
+
+  function handleDragEnd(e) {
+    this.classList.remove('dragging');
+    document.querySelectorAll('.clip-card').forEach(card => {
+      card.classList.remove('drag-over');
+    });
   }
 
   document.getElementById('yt-url').addEventListener('keydown', e => { if (e.key === 'Enter') addClip(); });
