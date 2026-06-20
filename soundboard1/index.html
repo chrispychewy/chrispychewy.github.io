@@ -334,7 +334,7 @@ renderBoard();
       return;
     }
     board.innerHTML = clips.map(c => `
-      <div class="clip-card${currentClipId === c.id ? ' playing' : ''}" draggable="true" data-id="${c.id}">        ${c.song ? `<div class=\"clip-song\" title=\"${c.song}\">${c.song}</div>` : ''}        <div class="clip-title" title="${c.label}">${c.label}</div>
+      <div class="clip-card${currentClipId === c.id ? ' playing' : ''}" draggable="true" data-id="${c.id}">        ${c.song ? `<div class="clip-title" title="${c.label}">${c.label}</div><div class=\"clip-song\" title=\"${c.song}\">${c.song}</div>` : ''}        
         <div class="clip-meta"><i class="ti ti-clock" style="font-size:11px"></i> ${toHMS(c.start)} &middot; ${c.dur}s</div>
         <div class="clip-actions">
           <button class="play-btn${currentClipId === c.id ? ' active' : ''}" onclick="playClip(${c.id})">
