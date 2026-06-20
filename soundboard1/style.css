@@ -23,6 +23,7 @@ html {
   .clip-card { background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 0.9rem; display: flex; flex-direction: column; gap: 8px; }
   .clip-card.playing { border-color: #5DCAA5; border-width: 1.5px; }
   .clip-title { font-size: 18px; font-weight: 900; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .clip-song { font-size: 12px; color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
   .clip-meta { font-size: 14px; color: var(--color-text-secondary); }
   .clip-actions { display: flex; gap: 6px; margin-top: 2px; }
   .play-btn { flex: 1; height: 32px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer; border-radius: var(--border-radius-md); background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); color: var(--color-text-primary); transition: background 0.15s; }
@@ -44,6 +45,27 @@ html {
   .clip-card { cursor: move; }
   .clip-card.dragging { opacity: 0.5; border-style: dashed; }
   .clip-card.drag-over { border-color: #5DCAA5; border-width: 2px; background: rgba(93, 202, 165, 0.1); }
+  .edit-btn { height: 32px; width: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: var(--border-radius-md); background: transparent; border: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); transition: background 0.15s; }
+  .edit-btn:hover { background: var(--color-background-tertiary); }
+  
+  .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center; }
+  .modal.open { display: flex; }
+  .modal-content { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); width: 90%; max-width: 400px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .modal-header h3 { margin: 0; color: var(--color-text-primary); font-size: 18px; }
+  .close-btn { background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--color-text-secondary); padding: 0; display: flex; align-items: center; justify-content: center; }
+  .close-btn:hover { color: var(--color-text-primary); }
+  .modal-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 12px; }
+  .modal-body label { font-size: 12px; color: var(--color-text-secondary); display: block; margin-bottom: 4px; }
+  .modal-body input { width: 100%; box-sizing: border-box; font-size: 1em; padding: 8px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); font-family: sans-serif; }
+  .modal-body input:focus { outline: none; border-color: var(--color-text-primary); }
+  .modal-footer { display: flex; gap: 8px; padding: 1rem 1.25rem; border-top: 0.5px solid var(--color-border-tertiary); justify-content: flex-end; }
+  .cancel-btn, .save-btn { padding: 8px 16px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); cursor: pointer; font-size: 13px; font-weight: 500; transition: background 0.15s; }
+  .cancel-btn { background: transparent; color: var(--color-text-secondary); }
+  .cancel-btn:hover { background: var(--color-background-primary); }
+  .save-btn { background: var(--color-text-primary); color: white; border-color: var(--color-text-primary); }
+  .save-btn:hover { opacity: 0.9; }
+
 
 
   @media all and (min-width:768px) and (max-width: 1024px) {
